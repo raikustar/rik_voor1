@@ -1,0 +1,436 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+:root {
+  --hoverbg: #ecf7fc;
+  --green: rgb(54, 163, 112);
+}
+
+body {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table_div {
+  margin: 0 auto;
+  width: 800px;
+  height: auto;
+}
+
+
+/* ############################ Front page - Start  ############################ */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+  height: auto;
+}
+
+h1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--green);
+  color: black;
+  width: 100%;
+  height: 100px;
+}
+
+td {
+  padding: 10px;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+}
+
+
+thead > tr {
+  background-color: var(--green); 
+  line-height: 30px;
+  color: snow;
+}
+
+thead > tr > td:first-child {
+  border-top-left-radius: 10px;
+}
+
+thead > tr > td:last-child {
+  border-top-right-radius: 10px;
+}
+
+tbody tr {
+  border-bottom: red 3px solid;
+  font-weight:500;
+}
+
+tbody > tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+tbody > tr:nth-child(even) {
+  background-color: #e9e9e9;
+  color: rgb(53, 153, 136);
+} 
+
+tbody > tr:last-child {
+  border-bottom: var(--green) 2px solid;
+}
+
+tbody tr:hover {
+  background-color: rgb(200, 243, 230);
+  cursor: pointer;
+}
+
+.add_new_company_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 800px;
+  height: 100px;
+}
+
+
+.add_new_company_a {
+  text-decoration: none;
+  color: black;
+  width: 155px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: lightgreen;
+}
+
+.add_new_company_a:hover {
+  background-color: rgb(186, 255, 186);
+}
+
+.home_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 50px;
+}
+
+.search_text{
+  width: 500px;
+  height: 38px;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  background-color: snow;
+  border: 2px solid var(--green);
+  padding-left: 5px;
+  outline: none;
+}
+
+.search_text_btn {
+  width: 80px;
+  height: 38px;
+  border-radius: 10px;
+  color: black;
+  font-weight: bold;
+  background-color: snow;
+  border: 2px solid var(--green);
+}
+.search_text_btn:hover {
+  cursor: pointer;
+  background-color: rgb(221, 243, 230);
+}
+
+/* ############################ Front page - End ############################ */
+
+
+/* */
+.home_anchor {
+  cursor: pointer;
+  color: black;
+  width: 300px;
+  height: 300px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid lightgreen;
+  text-decoration: none;
+  font-size: 18px;
+  background: snow;
+  
+}
+
+.home_anchor:hover {
+  background-color: rgb(216, 255, 216);
+}
+
+
+/* ############################ Add new company page - Start ############################ */
+
+.make_new_company_parent {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 700px;
+}
+
+.make_new_company {
+  margin: 0 auto;
+  position: relative;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-top: 20px;
+  width: 500px;
+  height: auto;
+  border-radius: 10px;
+  background: rgb(101,227,37);
+  background: linear-gradient(190deg, var(--green) 0%, rgb(72, 168, 92) 100%);
+  box-shadow: 1px 1px 4px #8f8f8f;
+}
+
+.make_new_company input {
+  border: transparent;
+  border-bottom: snow 1px solid;
+  outline: none;
+  background-color: transparent;
+  color: snow;
+  padding: 10px;
+  font-size: 16px;
+  width: 450px;
+  height: 30px;
+}
+
+.make_new_company input:active {
+  background-color: var(--green);
+  color: snow;
+}
+
+.make_new_company input::placeholder {
+  color: snow;
+  opacity: 1;
+}
+
+.make_new_company input::-ms-input-placeholder{
+  color: snow;
+  opacity: 1;
+}
+
+.make_new_company input:focus {
+  background-color: var(--green);
+  color: snow;
+}
+
+input:-webkit-autofill {
+  background-color: #e0f7fa !important; 
+  color: red; /* Optional: set text color */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.make_new_company_child {
+  width: 450px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.split_line {
+  margin: 10px 0px 10px 0px;
+  width: 95%;
+  height: 1px;
+  background-color: #333;
+  border-radius: 10px;
+
+}
+
+.add_newcompany_shares {
+  width: 440px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: red;
+}
+
+.make_new_company_buttons {
+  position: relative;
+  bottom: -60px;
+}
+
+
+.make_new_company_submit {
+  margin-top: 25px;
+  cursor: pointer;
+  color: black;
+  width: 170px;
+  padding: 10px;
+  padding-top: 12px;
+  border-radius: 10px;
+  font-size: 18px;
+  border: none;
+  background: none;
+  background-color: lightgreen;
+}
+
+.make_new_company_submit:hover {
+  background-color: rgb(186, 255, 186);
+}
+
+.add_shareholder_box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 250px;
+}
+
+.add_shareholder_btn {
+  width: 40px;
+  height: 40px;
+  background-color: snow;
+  border-radius: 10px;
+  font-size: 24px;
+}
+
+
+.shareholders_box {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  background-color: yellow;
+  height: auto;
+}
+
+.shb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.add_shareholder_btn:hover {
+  border:2px lightgreen solid;
+  color: lightgreen;
+  cursor: pointer;
+}
+
+.add_entity_shares {
+  padding: 5px;
+  height: 150px;
+  width: 230px;
+  background-color: red;
+}
+
+.add_entity_shares p {
+  display: flex;
+  font-style: italic;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.add_entity_shares input {
+  width: 95%;
+}
+
+.shareholders_box_left {
+  background-color: blue;
+}
+
+.shareholders_box_right {
+  background-color: purple;
+}
+
+ 
+/* ############################ Add new company page - End ############################ */
+
+
+/* ############################ View company - Start ############################ */
+
+.show_new_company_parent {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 700px;
+}
+
+.show_new_company {
+  background-color: lightcyan;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 500px;
+  height: 500px;
+}
+
+.show_nc_child {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.show_nc_child {
+  width: 250px;
+  height: 60px;
+  
+}
+
+.show_nc_child:nth-child(odd) {
+  background-color: purple;
+}
+
+.show_nc_child:nth-child(even) {
+  background-color: blue;
+}
+
+.show_nc_child:first-child {
+  width: 100%;
+  height: 70px;
+  font-size: 30px;
+  background-color: var(--green);
+}
+.home_anchor_vc {
+  cursor: pointer;
+  color: black;
+  width: 170px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 2px solid lightgreen;
+  text-decoration: none;
+  font-size: 18px;
+  background: snow;
+}
+
+.home_anchor_vc:hover {
+  background-color: rgb(216, 255, 216);
+}
+
+/* ############################ View company - End ############################ */

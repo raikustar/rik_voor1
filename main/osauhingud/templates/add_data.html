@@ -1,0 +1,88 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Add new company</title>
+</head>
+
+
+<script>
+
+</script>
+<body>
+    
+    <h1>
+        <a href="/">Osaühingud - RIK Voor 1</a>
+    </h1>
+    <p class="error_message">{{ message }}</p>
+    <div class="make_new_company_parent">
+        <form class="make_new_company" autocomplete="off" method="POST">{% csrf_token %} 
+            <h2>Add company</h2>
+            <div class="make_new_company_child">
+                <input type="text" id="comp_name" name="comp_name" placeholder="Company name..." value="{{ input_data.comp_name }}" required><br>
+            </div>
+            <div class="make_new_company_child">
+                <input type="text" id="reg_code" name="reg_code" placeholder="Registry code..." value="{{ input_data.reg_code }}" required><br>
+            </div>
+            <div class="make_new_company_child">
+                <input type="date" id="found_date" name="found_date" value="{{ input_data.found_date }}" required><br>
+            </div>
+            <div class="make_new_company_child">
+                <input type="text" id="total_cap" name="total_cap" placeholder="Total capital..." value="{{ input_data.total_cap }}" required><br>
+            </div>
+
+            <div class="split_line"></div>
+
+            <div class="shareholders_box">
+                <div class="shareholders_box_left shb">
+                    <div class="add_entity_shares">
+                        <h3>Individual Shareholder</h3>
+                        <input type="text" name="individual_first_name" placeholder="First Name">
+                        <input type="text" name="individual_last_name" placeholder="Last Name">
+                        <input type="text" name="individual_personal_id" placeholder="Personal ID Code">
+                        <input type="number" name="individual_share" placeholder="Share">   
+                    </div>
+                    
+                </div>
+                <div class="shareholders_box_right shb">
+                    <div class="add_entity_shares">
+                        <h3>Legal Entity Shareholder</h3>
+                        <input type="text" name="legal_entity_name" placeholder="Entity Name">
+                        <input type="text" name="legal_entity_registry_code" placeholder="Registry Code">
+                        <input type="number" name="legal_entity_share" placeholder="Share">
+                        <br>
+                    </div>
+                </div>
+
+            </div>
+            
+
+
+
+            <div class="make_new_company_buttons">
+                <a class="home_anchor" href="/">Back to front page</a>
+                <button type="submit" class="make_new_company_submit">Add Company</button>
+            </div>
+        </form>
+    </div>
+    
+
+
+    <!-- <div class="add_legalentity_shares">
+            <div class="make_new_company_child">
+                <label for="shareholder1">Shareholder:</label><br>
+            <input type="text" id="shareholder1" name="shareholder1"><br>
+            </div>
+            <div class="make_new_company_child">
+                <label for="shareholder1_value">Shareholder value:</label><br>
+                <input type="text" id="shareholder1_value" name="shareholder1_value"><br>
+            </div>    
+        </div> -->
+
+    
+</body>
+</html>

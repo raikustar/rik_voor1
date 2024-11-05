@@ -1,0 +1,53 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Company list</title>
+    
+</head>
+<body>
+    <h1>
+        <a href="/">Osaühingud - RIK Voor 1</a>
+        
+    </h1>
+    <div class="show_new_company_parent">
+        <div class="show_new_company">
+            <h2 class="show_nc_child">{{ data.companyname }}</h2>
+            <p class="show_nc_child">Registry code: {{ data.registrycode }}</p>
+            <p class="show_nc_child">Founding date: {{ data.foundingdate }}</p>
+            <p class="show_nc_child">Total company capital: {{ data.totalcapital }}</p>
+            <div class="gen_entities">
+                
+                {% for shareholder in data.shareholders.all %}
+                {% if shareholder.individual %}
+                    <p>
+                        <strong>Individual Shareholder:</strong> {{ shareholder.individual.first_name }} {{ shareholder.individual.last_name }},
+                        Share: {{ shareholder.individual.shareholder_share }},
+                        Personal ID: {{ shareholder.individual.personal_id_code }}
+                    </p>
+                {% elif shareholder.legal_entity %}
+                    <p>
+                        <strong>Legal Entity Shareholder:</strong> {{ shareholder.legal_entity.full_name }},
+                        Share: {{ shareholder.legal_entity.shareholder_share }},
+                        Registry Code: {{ shareholder.legal_entity.registry_code }}
+                    </p>
+                {% endif %}
+            {% endfor %}
+            </div>
+            
+        </div>
+
+
+        <div class="make_new_company_buttons">
+            <a class="home_anchor_vc" href="/">Back to front page</a>
+        </div>
+    </div>
+    
+
+    
+</body>
+</html>

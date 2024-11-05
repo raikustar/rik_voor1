@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Home</title>
+</head>
+
+<script>
+    function goToEditPage(osauhingId) {
+        location.href = `/details/${osauhingId}/`;
+    }
+</script>
+<body>
+    <h1>
+        <a href="/">Osaühingud - RIK Voor 1</a>
+    </h1>
+    <div class="table_div">
+        <div class="add_new_company_div">
+            <a class="add_new_company_a" href="{% url 'add_new' %}">Add new company</a>
+
+            <div class="home_box">
+                <form method="GET" action="{% url 'home' %}">
+                    <input type="text" id="search_text" class="search_text" name="search_text" placeholder="Search..">
+                    <button type="submit" class="search_text_btn">Search</button>
+                </form>
+            </div>
+        </div>
+
+        
+        <table>
+            <thead>
+                <tr>
+                    <td>Company name</td>
+                    <td>Registry code</td>
+                    <td>Founding date</td>
+                    <td>Total capital</td>
+                    <td>Shareholders</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for company in data %}
+                <tr onclick="goToEditPage('{{ company.id }}')">
+                    <td>{{ company.companyname }}</td>
+                    <td>{{ company.registrycode }}</td>
+                    <td>{{ company.foundingdate }}</td>
+                    <td>{{ company.totalcapital }}</td>
+                    <td>
+                        {% for shareholder in company.shareholders.all %}
+                            {% if shareholder.individual %}
+                            <p>
+                                Individual entity: {{ shareholder.individual.first_name }} {{ shareholder.individual.last_name }},
+                                Share: {{ shareholder.individual.shareholder_share }},
+                                Personal ID: {{ shareholder.individual.personal_id_code }}
+                            </p>
+                            {% elif shareholder.legal_entity %}
+                            <p>
+                                Legal entity: {{ shareholder.legal_entity.full_name }},
+                                Share: {{ shareholder.legal_entity.shareholder_share }},
+                                Registry Code: {{ shareholder.legal_entity.registry_code }}
+                            </p>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    
+</body>
+</html>
+
