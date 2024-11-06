@@ -96,108 +96,12 @@ def add_company(request):
         )
         add_new_osauhing.save()
 
-
         total_capital_sum:int = 0
-        # Process individual shareholder if data is provided
-        if request.method == "POST":
-            individual_first_name = request.POST.getlist("individual_first_name[]")
-            individual_last_name = request.POST.getlist("individual_last_name[]")
-            individual_personal_id = request.POST.getlist("individual_personal_id[]")
-            individual_share = request.POST.getlist("individual_share[]")
+        # Add individual entity shareholder
+        add_individual_shareholder_to_osauhingdb(request, total_capital_sum, add_new_osauhing, input_data)
 
-            for i in range(len(individual_first_name)):
-                ind_first_name = individual_first_name[i]
-                ind_last_name = individual_last_name[i]
-                ind_personal_id = individual_personal_id[i]
-                ind_share = individual_share[i]
-            
-                if not ind_first_name or not ind_last_name or not ind_personal_id or not ind_share:
-                    break
-                
-                total_capital_sum += int(ind_share)
-                try:
-                    ind_share = int(ind_share)
-                except ValueError:
-                    error = "Error: Individual shareholder share must be a valid integer."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-                
-                try:
-                    ind_personal_id = int(ind_personal_id)
-                except ValueError:
-                    error = "Error: Individual personal id must be a valid integer."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-
-                if not ind_first_name or not ind_last_name or not ind_personal_id or not ind_share:
-                    error = "Error: Individual data fields should all be filled."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-
-                try:
-                    individual_shareholder = IndividualShareHolder(
-                        first_name=ind_first_name,
-                        last_name=ind_last_name,
-                        personal_id_code=ind_personal_id,
-                        shareholder_share=ind_share
-                    )
-                    individual_shareholder.save()
-                
-                    # Link individual shareholder to Osauhing via Shareholder
-                    shareholder = Shareholder(individual=individual_shareholder)
-                    shareholder.save()
-                    add_new_osauhing.shareholders.add(shareholder)
-
-                except ValidationError as e:
-                    error = "Error: Validation error."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-        
-
-        # Add legal shareholder
-        if request.method == "POST":
-            legal_entity_name = request.POST.getlist("legal_entity_name[]")
-            legal_entity_registry_code = request.POST.getlist("legal_entity_registry_code[]")
-            legal_entity_share = request.POST.getlist("legal_entity_share[]")
-
-            for i in range(len(legal_entity_name)):
-                leg_entity_name = legal_entity_name[i]
-                leg_entity_registry_code = legal_entity_registry_code[i]
-                leg_entity_share = legal_entity_share[i]
-
-                if not leg_entity_name or not leg_entity_registry_code or not leg_entity_share:
-                    break
-                
-                total_capital_sum += int(leg_entity_share)
-
-                try:
-                    leg_entity_share = int(leg_entity_share)
-                except ValueError:
-                    error = "Error: Legal entities share must be a valid integer."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-
-                try:
-                    leg_entity_registry_code = int(leg_entity_registry_code)
-                except ValueError:
-                    error = "Error: Legal entity registry code must be a valid integer."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-
-
-                if total_capital_sum > int(total_cap_str):
-                    error = "Error: Shareholders combined capital exceeds the original base capital."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
-
-                try:
-                    legal_entity_shareholder = LegalEntityShareHolder(
-                        full_name=leg_entity_name,
-                        registry_code=leg_entity_registry_code,
-                        shareholder_share=leg_entity_share
-                    )
-                    legal_entity_shareholder.save()
-
-                    shareholder = Shareholder(legal_entity=legal_entity_shareholder)
-                    shareholder.save()
-                    add_new_osauhing.shareholders.add(shareholder)
-
-                except ValidationError as e:
-                    error = "Error: Validation error."
-                    return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+        # Add legal entity shareholder
+        add_legal_shareholder_to_osauhingdb(request, total_capital_sum, add_new_osauhing, input_data, total_cap_str)
                 
         return view_company(request, add_new_osauhing.id)
 
@@ -213,3 +117,107 @@ def view_company(request, osauhing_id):
     # open new html window to view data
     return render(request, 'view_company.html', {"data":data})
 
+
+def add_individual_shareholder_to_osauhingdb(request, capital_sum, main_table_db, input_data):
+    # Process individual shareholder if data is provided
+    if request.method == "POST":
+        individual_first_name = request.POST.getlist("individual_first_name[]")
+        individual_last_name = request.POST.getlist("individual_last_name[]")
+        individual_personal_id = request.POST.getlist("individual_personal_id[]")
+        individual_share = request.POST.getlist("individual_share[]")
+
+        for i in range(len(individual_first_name)):
+            ind_first_name = individual_first_name[i]
+            ind_last_name = individual_last_name[i]
+            ind_personal_id = individual_personal_id[i]
+            ind_share = individual_share[i]
+        
+            if not ind_first_name or not ind_last_name or not ind_personal_id or not ind_share:
+                break
+            
+            capital_sum += int(ind_share)
+            try:
+                ind_share = int(ind_share)
+            except ValueError:
+                error = "Error: Individual shareholder share must be a valid integer."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+            
+            try:
+                ind_personal_id = int(ind_personal_id)
+            except ValueError:
+                error = "Error: Individual personal id must be a valid integer."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+            if not ind_first_name or not ind_last_name or not ind_personal_id or not ind_share:
+                error = "Error: Individual data fields should all be filled."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+            try:
+                individual_shareholder = IndividualShareHolder(
+                    first_name=ind_first_name,
+                    last_name=ind_last_name,
+                    personal_id_code=ind_personal_id,
+                    shareholder_share=ind_share
+                )
+                individual_shareholder.save()
+            
+                # Link individual shareholder to Osauhing via Shareholder
+                shareholder = Shareholder(individual=individual_shareholder)
+                shareholder.save()
+                main_table_db.shareholders.add(shareholder)
+
+            except ValidationError as e:
+                error = "Error: Validation error."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+
+
+def add_legal_shareholder_to_osauhingdb(request, capital_sum, main_table_db, input_data, total_cap_str):
+    # Add legal entity shareholder if data is provided
+    if request.method == "POST":
+        legal_entity_name = request.POST.getlist("legal_entity_name[]")
+        legal_entity_registry_code = request.POST.getlist("legal_entity_registry_code[]")
+        legal_entity_share = request.POST.getlist("legal_entity_share[]")
+
+        for i in range(len(legal_entity_name)):
+            leg_entity_name = legal_entity_name[i]
+            leg_entity_registry_code = legal_entity_registry_code[i]
+            leg_entity_share = legal_entity_share[i]
+
+            if not leg_entity_name or not leg_entity_registry_code or not leg_entity_share:
+                break
+            
+            capital_sum += int(leg_entity_share)
+
+            try:
+                leg_entity_share = int(leg_entity_share)
+            except ValueError:
+                error = "Error: Legal entities share must be a valid integer."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+            try:
+                leg_entity_registry_code = int(leg_entity_registry_code)
+            except ValueError:
+                error = "Error: Legal entity registry code must be a valid integer."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+
+            if capital_sum > int(total_cap_str):
+                error = "Error: Shareholders combined capital exceeds the original base capital."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
+
+            try:
+                legal_entity_shareholder = LegalEntityShareHolder(
+                    full_name=leg_entity_name,
+                    registry_code=leg_entity_registry_code,
+                    shareholder_share=leg_entity_share
+                )
+                legal_entity_shareholder.save()
+
+                shareholder = Shareholder(legal_entity=legal_entity_shareholder)
+                shareholder.save()
+                main_table_db.shareholders.add(shareholder)
+
+            except ValidationError as e:
+                error = "Error: Validation error."
+                return render(request, 'add_data.html', {"message": error, "input_data":input_data})
